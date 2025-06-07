@@ -1,1 +1,32 @@
+
+version: '3.8'
+
 services:
+  db:
+    image: mysql:latest
+
+    # Política de reinicialização. 'always' significa que o Docker tentará reiniciar
+    # o contêiner sempre que ele parar, seja por um erro ou ao reiniciar o Docker.
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'libSeekData'
+      # MYSQL_USER: 'meuusuario'
+      # MYSQL_PASSWORD: 'senha-do-usuario'
+
+    # Mapeamento de portas no formato "PORTA_NO_SEU_PC:PORTA_NO_CONTAINER".
+    ports:
+      - "3311:3306"
+
+    # Volumes para persistir os dados do banco de dados.
+    # Tudo o que for salvo dentro do contêiner no caminho /var/lib/mysql
+    # será, na verdade, salvo na sua máquina em um volume gerenciado pelo Docker.
+    # O nome do volume é "mysql-data".
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+# Seção onde os volumes gerenciados pelo Docker são definidos.
+volumes:
+  # Declara o volume 'mysql-data' que usamos acima.
+  mysql-data:
